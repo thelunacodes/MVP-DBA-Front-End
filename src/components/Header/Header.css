@@ -1,0 +1,49 @@
+.headerContainer {
+    padding: 15px 20px;
+    width: 100%;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.headerContainer,
+.headerContainerL,
+.headerContainerR {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.headerContainerL {
+    gap: 13px;
+}
+
+.appButton {
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: var(--font-family);
+
+    padding: 8px 15px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+
+    background-color: #ff3c00;
+    color: #ffffff;
+
+    cursor: pointer;
+}
+
+.headerGuestBtns {
+    gap: 5px
+}
+
+.headerIcon {
+    width: 24px;
+    height: 24px;
+}
+
+.headerLabel {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 0;
+}

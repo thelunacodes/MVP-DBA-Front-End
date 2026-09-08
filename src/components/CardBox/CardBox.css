@@ -1,0 +1,11 @@
+.cardContainer{
+    background-color: #ffffff;
+    border: #bdbdbd solid 1px;
+    border-radius: var(--border-radius);
+    margin: var(--card-margin);
+    width: var(--card-width);
+    height: var(--card-height);
+    user-select: none;
+    cursor: var(--card-cursor);
+    box-sizing: border-box;
+}
