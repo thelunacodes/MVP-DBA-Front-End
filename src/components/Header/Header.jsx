@@ -2,10 +2,17 @@ import "./Header.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons"
 import { UseUserContext } from "../../providers/UserProvider"
+import { useNavigate } from "react-router";
 
 export default function Header() {
-    const {isLoggedIn} = UseUserContext();
+    const {isLoggedIn, userIdSetter} = UseUserContext();
+    const navigate = useNavigate();
     const btnLabel = isLoggedIn ? "Sign Out" : "Sign In";
+
+    function signOut() {
+        userIdSetter(null);
+        location.reload();
+    }
     
     return (
         <header className="headerContainer">
@@ -14,7 +21,7 @@ export default function Header() {
                 <p className="headerLabel">Book Reviews</p>
             </div>
             <div className="headerContainerR">
-                <button className="appButton" title={btnLabel}>
+                <button className="appButton" title={btnLabel} onClick={() => isLoggedIn ? signOut() : navigate("/login")}>
                     {btnLabel}
                 </button>
             </div>

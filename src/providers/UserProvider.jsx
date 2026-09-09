@@ -35,6 +35,7 @@ export function UserProvider({children}) {
 
     let providerValue = { currUser: user, 
                             currUserId: userId, 
+                            userIdSetter: setUserId,
                             isLoggedIn: isLoggedIn, 
                             username: user ? `${user.name} ${user.surname}` : null }
 

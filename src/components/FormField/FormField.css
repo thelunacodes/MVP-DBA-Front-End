@@ -1,8 +1,13 @@
-.registerInputContainer {
+.formInputContainer {
     position: relative
 }
 
-.registerInput {
+.formLabel {
+    font-family: var(--font-family);
+    margin: 0;
+}
+
+.formInput {
     padding: 5px;
     font-size: 0.95rem;
     box-sizing: border-box;
@@ -17,7 +22,7 @@
     padding-right: 35px;
 }
 
-.registerField {
+.formField {
     display: flex;
     flex-direction: column;
     gap: 2px;

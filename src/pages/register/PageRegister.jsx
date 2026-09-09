@@ -5,7 +5,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 
 import CardBox from "../../components/CardBox/CardBox"
-import RegisterField from "../../components/RegisterField/RegisterField";
+import FormField from "../../components/FormField/FormField";
 import { API_URL } from "../../appConsts";
 
 import "./PageRegister.css"
@@ -120,9 +120,7 @@ export default function PageRegister() {
         .catch(err => {
             setIsSaving(false)
             console.error(err)
-        })
-
-        
+        })   
     }
     
     const pwStrengthDict = { 0: { strengthLabel: "Very Weak", strengthClass: "veryWeak"}, 
@@ -143,7 +141,7 @@ export default function PageRegister() {
                     </div>
                     <form ref={formRef} className="flex column vCenter hCenter registerForm" onSubmit={register}>
                         
-                        <RegisterField 
+                        <FormField 
                             labelText="Full Name"
                             inputType="text"
                             identifier="FullName"
@@ -156,7 +154,7 @@ export default function PageRegister() {
                             isRequired={true}
                         />
 
-                        <RegisterField 
+                        <FormField 
                             labelText="Email Address"
                             inputType="email"
                             identifier="Email"
@@ -166,7 +164,7 @@ export default function PageRegister() {
                         />
 
                         <div className="flex row passwordField">
-                            <RegisterField 
+                            <FormField 
                                 labelText="Password"
                                 inputType="password"
                                 identifier="Password"
@@ -179,7 +177,7 @@ export default function PageRegister() {
                                 isRequired={true}
                              />
 
-                            <RegisterField 
+                            <FormField 
                                 labelText="Confirm Password"
                                 inputType="password"
                                 identifier="ConfirmPassword"

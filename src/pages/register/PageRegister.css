@@ -12,7 +12,6 @@
     gap: 10px;
 }
 
-.registerField label,
 .registerHeader,
 .pwTipsLabel,
 li,
@@ -79,7 +78,6 @@ li,
     color: #ff3c00;
     text-decoration: none;
 }
-
 
 .veryWeak {
     background-color: #ff0000;
