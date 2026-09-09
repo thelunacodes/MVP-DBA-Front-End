@@ -1,3 +1,23 @@
+:root {
+    --very-weak-accent: #ff0000;
+    --weak-accent: #ff5100; 
+    --ok-accent: #ffa600; 
+    --good-accent: #88ff00;
+    --strong-accent: #00ffdd;
+}
+
+.registerForm,
+.passwordField,
+.pwStrengthContainer
+{
+    width: 100%
+}
+
+.registerForm,
+.pwStrengthContainer {
+    gap: 10px;
+}
+
 .registerHeader {
     font-size: 1.5rem;
     margin-bottom: 30px !important;
@@ -5,32 +25,57 @@
 
 .registerForm {
     padding: 20px 25px;
-    gap: 10px;
-}
-
-.registerField {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    width: 100%;
+    box-sizing: border-box;
 }
 
 .registerField label,
-.registerHeader {
+.registerHeader,
+.pwTipsLabel,
+li,
+.pwStrengthContainer p {
     font-family: var(--font-family);
-    font-weight: 500;
     margin: 0;
 }
 
-.registerField input {
-    padding: 5px;
-    font-size: 0.95rem;
-    box-sizing: border-box;
-    border-radius: 3px;
-    border-color: #bdbdbd;
-    border-style: solid;
+.passwordField {
+    gap: 3px;
 }
 
-.passwordField {
-    gap: 5px;
+.pwStrengthContainer,
+.registerBtn {
+    margin-top: 15px;
+}
+
+.pwStrengthBar {
+    width: 65%;
+    height: 4px;
+    background-color: #ccc;
+    border-radius: 2px;
+    overflow: hidden;
+}    
+
+.pwStrengthProgress {
+    height: 100%;
+    transition: width 0.2s ease;
+}
+
+/* Range accents */
+.veryWeak {
+    background-color: var(--very-weak-accent);
+}
+
+.weak {
+    background-color: var(--weak-accent);
+}
+
+.ok {
+    background-color: var(--ok-accent);
+}
+
+.good {
+    background-color: var(--good-accent);
+}
+
+.strong {
+    background-color: var(--strong-accent);
 }

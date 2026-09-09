@@ -1,8 +1,9 @@
 import { useFormStatus } from "react-dom";
 import CardBox from "../../components/CardBox/CardBox"
 import "./PageRegister.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import zxcvbn from "zxcvbn";
+import RegisterField from "../../components/RegisterField/RegisterField";
 
 
 export default function PageRegister() {
@@ -23,21 +24,21 @@ export default function PageRegister() {
         setPwConfirmed(isEqual)
     }
 
-    function getPasswordStrength() {
+    useEffect(() => {
         let trimmedFullname = fullName.trim();
         let firstName = trimmedFullname.split(" ")[0];
         let lastName = trimmedFullname.substring(firstName.length+1)
         
         let pwStrength = zxcvbn(password, [firstName, lastName, email])
         setPasswordStrength(pwStrength.score)
-    }
+    }, [password, fullName, email] )
 
-    function onPasswordChange() {
-        console.log("Password changed!")
-        getPasswordStrength()
-    }
-
-    const pwStrengthDict = { 0: "Very Weak", 1: "Weak", 2: "Ok", 3: "Good", 4: "Strong"}
+    
+    const pwStrengthDict = { 0: { strengthLabel: "Very Weak", strengthClass: "veryWeak"}, 
+                            1: { strengthLabel: "Weak", strengthClass: "weak"},
+                            2: { strengthLabel: "Ok", strengthClass: "ok"},
+                            3: { strengthLabel: "Good", strengthClass: "good"},
+                            4: { strengthLabel: "Strong", strengthClass: "strong"} }
 
     return(
         <div className="flex vCenter hCenter mainPageContainer">
@@ -45,74 +46,78 @@ export default function PageRegister() {
                 <div>
                     <form className="flex column vCenter hCenter registerForm">
                         <h1 className="registerHeader">Sign up</h1>
-                        <div className="registerField">
-                            <label for="FullName">Full Name</label>
-                            <input className="registerInput" 
-                                    type="text" 
-                                    name="FullName" 
-                                    id="FullName" 
-                                    value={fullName} 
-                                    onChange={(e) => setFullName(e.target.value)} 
-                                    required />
-                        </div>
+                        <RegisterField 
+                            labelText="Full Name"
+                            inputType="text"
+                            identifier="FullName"
+                            inputValue={fullName}
+                            action={(e) => setFullName(e.target.value)}
+                            isRequired={true}
+                        />
 
-                        <div className="registerField">
-                            <label for="Email">Email Address</label>
-                            <input className="registerInput" 
-                                    type="email" 
-                                    name="Email" 
-                                    id="Email" 
-                                    value={email} 
-                                    onChange={(e) => setEmail(e.target.value)} 
-                                    required />
-                        </div>
+                        <RegisterField 
+                            labelText="Email Address"
+                            inputType="email"
+                            identifier="Email"
+                            inputValue={email}
+                            action={(e) => setEmail(e.target.value)}
+                            isRequired={true}
+                        />
 
                         <div className="flex row passwordField">
-                            <div className="registerField">
-                                <label for="Password">Password</label>
-                                <input className="registerInput" 
-                                    type="password" 
-                                    name="Password" 
-                                    id="Password" 
-                                    value={password} 
-                                    onChange={(e) => { setPassword(e.target.value); onPasswordChange()}}
-                                    required />
-                            </div>
+                            <RegisterField 
+                                labelText="Password"
+                                inputType="password"
+                                identifier="Password"
+                                inputValue={password}
+                                action={(e) => {setPassword(e.target.value)}}
+                                isRequired={true}
+                             />
 
-                            <div className="registerField">
-                                <label for="ConfirmPassword">Confirm Password</label>
-                                <input className="registerInput" 
-                                    type="password" 
-                                    name="ConfirmPassword" 
-                                    id="ConfirmPassword" 
-                                    value={pwRepeat} 
-                                    onChange={ (e) => { setPwRepeat(e.target.value); validatePwRepeat()} } 
-                                    required />
-                            </div>
+                            <RegisterField 
+                                labelText="Confirm Password"
+                                inputType="password"
+                                identifier="ConfirmPassword"
+                                inputValue={pwRepeat}
+                                action={(e) => { setPwRepeat(e.target.value); validatePwRepeat()}}
+                                isRequired={true}
+                            />
                         </div>         
-                        <div>
-                            <p>Password Strength: {pwStrengthDict[passwordStrength]}</p>
+                        <div className="flex column" style={{gap: "15px"}}>
+                            <div className="flex column vCenter pwStrengthContainer">
+                                <div className="pwStrengthBar">
+                                    <div className={`pwStrengthProgress ${pwStrengthDict[passwordStrength].strengthClass}`} style={{ width: `${passwordStrength * 25}%` } }/>
+                                </div>
 
-                            <p>Password tips:</p>
-                            <ul>
-                                <li>Include both uppercase and lowercase characters!</li>
-                                <li>Include numbers and symbols!</li>
-                                <li>Make the password, at least, eight (8) characters long!</li>
-                            </ul>
+                                <div className="flex column vCenter wrapper">
+                                    <p className="semibold">Password Strength:</p>
+                                    <p>{pwStrengthDict[passwordStrength].strengthLabel}</p>
+                                </div>
+                                    
+                            </div>
+
+                            <div className="wrapper">
+                                <label className="pwTipsLabel semibold">Password tips:</label>
+                                <ul>
+                                    <li>Include both uppercase and lowercase characters!</li>
+                                    <li>Include numbers and symbols!</li>
+                                    <li>Make the password, at least, eight (8) characters long!</li>
+                                </ul>
+                            </div>
+                            
                             
                         </div>               
 
-                        <div className="registerField">
-                            <label for="DateOfBirth">Date of Birth</label>
-                            <input type="date" 
-                                name="DateOfBirth" 
-                                id="DateOfBirth" 
-                                value={dateOfBirth}
-                                onChange={(e) => setDateOfBirth(e.target.value)}
-                                required />
-                        </div>
+                        <RegisterField 
+                            labelText="Date of Birth"
+                            inputType="date"
+                            identifier="DateOfBirth"
+                            inputValue={dateOfBirth}
+                            action={(e) => setDateOfBirth(e.target.value)}
+                            isRequired={true}
+                        />
 
-                        <button type="submit" className="appButton">Register</button>
+                        <button type="submit" className="appButton registerBtn">Register</button>
                     </form>
                 </div>
             } hasRoundedCorner={true} />

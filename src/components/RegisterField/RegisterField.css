@@ -1,0 +1,15 @@
+.registerInput {
+    padding: 5px;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border-color: #bdbdbd;
+    border-style: solid;
+}
+
+.registerField {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+}
