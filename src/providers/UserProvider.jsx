@@ -14,7 +14,7 @@ export function UserProvider({children}) {
 
             fetch(url)
                 .then(res => {
-                    if (!res.ok) throw new Error(`Erro: ${res.status}`)
+                    if (!res.ok) throw new Error(`Unable to fetch user: ${res.status}`)
                     return res.json()
                 })
                 .then(data => {
@@ -33,11 +33,13 @@ export function UserProvider({children}) {
         }
     }, [userId]);
 
+    let providerValue = { currUser: user, 
+                            currUserId: userId, 
+                            isLoggedIn: isLoggedIn, 
+                            username: user ? `${user.name} ${user.surname}` : null }
+
     return (
-        <UserContext.Provider value={{ currUser: user, 
-                                        currUserId: userId, 
-                                        isLoggedIn: isLoggedIn, 
-                                        username: user ? `${user.name} ${user.surname}` : null}}
+        <UserContext.Provider value={providerValue}
         >
             {children}
         </UserContext.Provider>

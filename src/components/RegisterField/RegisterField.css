@@ -1,3 +1,7 @@
+.registerInputContainer {
+    position: relative
+}
+
 .registerInput {
     padding: 5px;
     font-size: 0.95rem;
@@ -5,6 +9,12 @@
     border-radius: 3px;
     border-color: #bdbdbd;
     border-style: solid;
+    width: 100%;
+}
+
+.password {
+    box-sizing: border-box;
+    padding-right: 35px;
 }
 
 .registerField {
@@ -12,4 +22,12 @@
     flex-direction: column;
     gap: 2px;
     width: 100%;
+}
+
+.showPassword {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
 }

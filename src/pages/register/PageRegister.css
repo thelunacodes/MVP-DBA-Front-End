@@ -1,10 +1,4 @@
-:root {
-    --very-weak-accent: #ff0000;
-    --weak-accent: #ff5100; 
-    --ok-accent: #ffa600; 
-    --good-accent: #88ff00;
-    --strong-accent: #00ffdd;
-}
+
 
 .registerForm,
 .passwordField,
@@ -18,16 +12,6 @@
     gap: 10px;
 }
 
-.registerHeader {
-    font-size: 1.5rem;
-    margin-bottom: 30px !important;
-}
-
-.registerForm {
-    padding: 20px 25px;
-    box-sizing: border-box;
-}
-
 .registerField label,
 .registerHeader,
 .pwTipsLabel,
@@ -37,45 +21,82 @@ li,
     margin: 0;
 }
 
-.passwordField {
-    gap: 3px;
+.pwStrengthContainer,
+.registerBtn,
+.pwTipsList {
+    margin-top: 15px;
 }
 
-.pwStrengthContainer,
-.registerBtn {
-    margin-top: 15px;
+.registerHeaderRow {
+    display: grid;
+    grid-template-columns: 24px 1fr 24px;
+    align-items: center;
+    padding: 20px 25px;
+}
+
+.backIconContainer {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.backIcon {
+    width: 18px;
+    height: 18px;
+}
+
+.registerHeader {
+    font-size: 1.3rem;
+    font-weight: 500;
+    text-align: center;   
+}
+
+.registerForm {
+    box-sizing: border-box;
+    padding: 25px;
+}
+
+.passwordField {
+    gap: 3px;
 }
 
 .pwStrengthBar {
     width: 65%;
     height: 4px;
     background-color: #ccc;
-    border-radius: 2px;
+    border-radius: 5px;
     overflow: hidden;
 }    
 
 .pwStrengthProgress {
     height: 100%;
     transition: width 0.2s ease;
+    min-width: 6px;
 }
 
-/* Range accents */
+.signInShortcut,
+.signInShortcut:visited {
+    color: #ff3c00;
+    text-decoration: none;
+}
+
+
 .veryWeak {
-    background-color: var(--very-weak-accent);
+    background-color: #ff0000;
 }
 
 .weak {
-    background-color: var(--weak-accent);
+    background-color: #ff5100;
 }
 
 .ok {
-    background-color: var(--ok-accent);
+    background-color: #ffa600;
 }
 
 .good {
-    background-color: var(--good-accent);
+    background-color: #88ff00;
 }
 
 .strong {
-    background-color: var(--strong-accent);
+    background-color: #00ffdd;
 }
