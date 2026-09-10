@@ -63,3 +63,10 @@
 .disabled {
   opacity: 17%;
 }
+
+.errMsg {
+  color: red;
+  margin: 0px;
+  font-style: italic;
+  font-weight: 400;
+}

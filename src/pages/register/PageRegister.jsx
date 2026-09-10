@@ -9,6 +9,7 @@ import FormField from "../../components/FormField/FormField";
 import { API_URL } from "../../appConsts";
 
 import "./PageRegister.css"
+import { isEmpty } from "../../utilFuncs";
 
 
 export default function PageRegister() {
@@ -22,10 +23,11 @@ export default function PageRegister() {
     const [ passwordConfirmation, setPasswordConfirmation ] = useState("");
 
     // Refs
-    const formRef = useRef(undefined);
-    const fullNameRef = useRef(undefined);
-    const passwordRef = useRef(undefined);
-    const pwRepeatRef = useRef(undefined);
+    const formRef = useRef(null);
+    const fullNameRef = useRef(null);
+    const emailRef = useRef(null);
+    const passwordRef = useRef(null);
+    const pwRepeatRef = useRef(null);
 
     let navigate = useNavigate();
 
@@ -53,11 +55,14 @@ export default function PageRegister() {
     function validateFields() {
         var isValid = true;
 
-        // Check if full name contains surname
+        // Full name validation
         if (fullNameRef.current) {
             const fullNameSplit = fullName.split(" ").filter(Boolean);
-            console.log(fullNameSplit)
-            if (fullNameSplit.length < 2) {
+
+            if (isEmpty(fullName)) {
+                fullNameRef.current.setCustomValidity("Full name is required.")
+                isValid = false
+            } else if (fullNameSplit.length < 2) { // Check if full name contains surname
                 fullNameRef.current.setCustomValidity("Full name must include a surname.")
                 isValid = false
             } else {
@@ -65,24 +70,40 @@ export default function PageRegister() {
             }
         } 
 
-        // Check if password strengh is, at least, 2 (ok)
+        // Email validation
+        if (emailRef.current) {
+            if (isEmpty(email)) {
+                emailRef.current.setCustomValidity("Email address is required.")
+                isValid = false
+            } else {
+                emailRef.current.setCustomValidity("")
+            }
+        } 
+
+        // Password validation
         if (passwordRef.current) {
-            console.log(`Current Password strength: ${passwordStrength}`)
-            if (passwordStrength < 2) {
-                passwordRef.current.setCustomValidity("Please, choose a stronger password")
+            if (isEmpty(password)) { 
+                passwordRef.current.setCustomValidity("Password is required.")
+                isValid = false;
+            } else if (passwordStrength < 2) { // Check if password strengh is, at least, 2 (ok)
+                passwordRef.current.setCustomValidity("Please, choose a stronger password.")
                 isValid = false;
             } else {
                 passwordRef.current.setCustomValidity("")
             }
-            
         } 
 
-        // Check if both passwords are equal
-        if (pwRepeatRef.current && password !== passwordConfirmation) {
-            pwRepeatRef.current.setCustomValidity("You must enter the same value you've used in the \"Password\" field!"); 
-            isValid = false;
-        } else {
-            pwRepeatRef.current.setCustomValidity("")
+        // Password (confirmation) validation
+        if (pwRepeatRef.current) {
+            if (isEmpty(passwordConfirmation)) {
+                pwRepeatRef.current.setCustomValidity("You must confirm your password."); 
+                isValid = false;
+            } else if (password !== passwordConfirmation) { 
+                pwRepeatRef.current.setCustomValidity("You must enter the same value you've used in the \"Password\" field!"); 
+                isValid = false;
+            } else {
+                pwRepeatRef.current.setCustomValidity("")
+            }
         }
 
         return isValid;
@@ -90,15 +111,15 @@ export default function PageRegister() {
 
     function register(e) {
         e.preventDefault();
+        setIsSaving(true)
         
         var isValid = validateFields();
 
         if (!isValid && formRef.current) {
-        formRef.current.reportValidity();
-        return;
-    }
+            formRef.current.reportValidity();
+            return;
+        }
 
-        setIsSaving(true)
         let registerJson = getUserJson()
         let url = `${API_URL}/user`
 
@@ -109,7 +130,9 @@ export default function PageRegister() {
             body: JSON.stringify(registerJson)
         })
         .then(res => {
-            if (!res.ok) throw new Error(`Unable to create new user: ${res.status}`); 
+            if (!res.ok) {
+                throw new Error(`Unable to create new user (${res.status} - ${res.statusText})`);
+            } 
             return res.json()
         })
         .then(data => {
@@ -131,6 +154,8 @@ export default function PageRegister() {
 
     return(
         <div className="flex vCenter hCenter mainPageContainer">
+            <title>Book Reviews - Register</title>
+
             <CardBox cardContent={
                 <div>
                     <div className="registerHeaderRow">
@@ -139,7 +164,7 @@ export default function PageRegister() {
                         </div>
                         <h1 className="registerHeader">Sign up</h1>
                     </div>
-                    <form ref={formRef} className="flex column vCenter hCenter registerForm" onSubmit={register}>
+                    <form ref={formRef} className="flex column vCenter hCenter registerForm" onSubmit={(e) => register(e)}>
                         
                         <FormField 
                             labelText="Full Name"
@@ -151,7 +176,6 @@ export default function PageRegister() {
                                 setFullName(e.target.value); 
                                 fullNameRef.current.setCustomValidity("");
                             }}
-                            isRequired={true}
                         />
 
                         <FormField 
@@ -159,8 +183,11 @@ export default function PageRegister() {
                             inputType="email"
                             identifier="Email"
                             inputValue={email}
-                            action={(e) => setEmail(e.target.value)}
-                            isRequired={true}
+                            ref={emailRef}
+                            action={(e) => { 
+                                setEmail(e.target.value);
+                                emailRef.current.setCustomValidity("");
+                            }}
                         />
 
                         <div className="flex row passwordField">
@@ -174,7 +201,6 @@ export default function PageRegister() {
                                     setPassword(e.target.value); 
                                     passwordRef.current.setCustomValidity("");
                                 }}
-                                isRequired={true}
                              />
 
                             <FormField 
@@ -187,7 +213,6 @@ export default function PageRegister() {
                                     setPasswordConfirmation(e.target.value); 
                                     pwRepeatRef.current.setCustomValidity("");
                                 }}
-                                isRequired={true}
                             />
                         </div>        
                         <div className="flex column" style={{gap: "15px"}}>

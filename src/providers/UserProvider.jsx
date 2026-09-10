@@ -14,7 +14,7 @@ export function UserProvider({children}) {
 
             fetch(url)
                 .then(res => {
-                    if (!res.ok) throw new Error(`Unable to fetch user: ${res.status}`)
+                    if (!res.ok) throw new Error(`Unable to fetch user (${res.status} - ${res.statusText})`)
                     return res.json()
                 })
                 .then(data => {
@@ -35,7 +35,7 @@ export function UserProvider({children}) {
 
     let providerValue = { currUser: user, 
                             currUserId: userId, 
-                            userIdSetter: setUserId,
+                            setUserId: setUserId,
                             isLoggedIn: isLoggedIn, 
                             username: user ? `${user.name} ${user.surname}` : null }
 

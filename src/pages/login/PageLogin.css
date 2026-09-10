@@ -1,3 +1,10 @@
+.loginHeaderRow {
+    display: grid;
+    grid-template-columns: 24px 1fr 24px;
+    align-items: center;
+    padding: 20px 25px;
+}
+
 .loginHeader {
     font-size: 1.3rem;
     font-weight: 500;

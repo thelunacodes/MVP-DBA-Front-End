@@ -5,6 +5,7 @@ import { AllProvider } from './providers/AllProvider'
 import PageHome from './pages/home/PageHome'
 import PageLogin from './pages/login/PageLogin'
 import PageRegister from './pages/register/PageRegister'
+import PageSearchResults from './pages/searchResults/PageSearchResults'
 
 export default function App() {
 
@@ -17,6 +18,8 @@ export default function App() {
             <Route path='/home' element={<PageHome />} />
             <Route path='/login' element={<PageLogin />} />
             <Route path='/register' element={<PageRegister />} />
+            <Route path='/search/:query/:page' element={<PageSearchResults />} />
+            {/* <Route path='/book/:key' element={<PageRegister />} /> */}
           </Route>
         </Routes>
       </AllProvider>

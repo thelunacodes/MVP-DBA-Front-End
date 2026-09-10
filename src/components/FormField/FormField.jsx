@@ -6,7 +6,7 @@ import "./FormField.css"
 
 
 
-export default function FormField({labelText, identifier, ref=undefined, inputType, inputValue, action, isRequired=true}) {
+export default function FormField({labelText, identifier, ref=undefined, inputType, inputValue, action, isRequired=false}) {
     const [showPassword, setShowPassword] = useState(false);    
      
     return (

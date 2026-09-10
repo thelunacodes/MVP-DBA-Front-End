@@ -15,6 +15,7 @@
 
 .headerContainerL {
     gap: 13px;
+    cursor: pointer;
 }
 
 .appButton {

@@ -4,24 +4,31 @@ import Header from "../../components/Header/Header";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router";
+import { UseBookContext } from "../../providers/BookProvider";
+import { isEmpty } from "../../utilFuncs";
 
 export default function PageHome() {
     const [ searchQuery, setSearchQuery ] = useState("");
-    const { isLoggedIn } = UseUserContext();
+    const { username } = UseUserContext();
+
+    const navigate = useNavigate();
 
     function searchBook() {
-        if (searchQuery.trim() === "") return
+        if (isEmpty(searchQuery)) return
 
-        console.log(`Pesquisando por "${searchQuery}"...`)
+        // console.log(`Pesquisando por "${searchQuery}"...`)
+        // bookSearch(searchQuery, 1, 20)
+        navigate(`/search/${searchQuery}/1`)
     }
 
     return (
         <div className="mainPageContainer">
             <title>Book Reviews - Home</title>
 
-            <Header isLoggedIn={isLoggedIn} />
+            <Header/>
             <div className="flex column vCenter pageContentContainer">
-                <h1 className="welcomeMsg">Welcome to Book Reviews!</h1>
+                <h1 className="welcomeMsg">Welcome to Book Reviews{username && `, ${username}`}!</h1>
 
                 <div className="bookSearchContainer vCenter">
                     <div title="Search" className="searchIconContainer">
@@ -29,14 +36,15 @@ export default function PageHome() {
                     </div>
                     <input type="text" 
                         className="bookSearchInput"
-                        placeholder="Search for a book to review..." 
+                        placeholder="Search book..." 
                         value={searchQuery} 
                         onChange={(e) => setSearchQuery(e.target.value)} 
                         onKeyDown={(event) => {
                             if (event.key === "Enter") {
                                 searchBook();
                             }
-                        }}/>
+                        }}
+                    />
                 </div>
             </div>
         </div>

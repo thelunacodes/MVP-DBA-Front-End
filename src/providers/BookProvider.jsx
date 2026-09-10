@@ -1,15 +1,75 @@
 import { createContext, useContext, useState } from "react";
+import { isEmpty, isNumber } from "../utilFuncs";
 
 const BookContext = createContext(undefined);
 
+function searchArgsValidator(searchQuery, page, limit, numFound=null) {
+    if (isEmpty(searchQuery)) {
+        console.error("Search query must not be empty")
+        return false;
+    }
+    
+
+    if (!isNumber(limit)) {
+        console.error(`Value for 'limit' must be a integer. (Value: ${limit} | Type: ${typeof limit})`)
+        return false;
+    }
+
+    if (!isNumber(page)) {
+        console.error(`Value for 'page' must be a integer. (Value: ${page} | Type: ${typeof page})`)
+        return false;
+    }
+    
+    let maxPageNum = isNumber(numFound) ? Math.ceil(numFound / limit) : null;
+    console.log(maxPageNum);
+
+    if (maxPageNum && page > maxPageNum) {
+        console.error(`Value for 'page' must be a number smaller, or equal, to ${maxPageNum}`)
+        return false;
+    }
+
+    return true
+}
+
 export function BookProvider({children}) {
     const [ books, setBooks ] = useState([]);
+    const [ isSearching, setIsSearching ] = useState(false);
 
-    // let url = 'https://openlibrary.org/search/books.json?q=twain&limit=20&page=1'
+    function bookSearch(searchQuery, page, limit, numFound=null,) {
+        var argsAreValid = searchArgsValidator(searchQuery, page, limit, numFound);
+        if (!argsAreValid) { return; }
 
+        setIsSearching(true)
+
+        let url = `https://openlibrary.org/search.json?title=${searchQuery}&limit=${limit}&page=${page}`
+
+        fetch (url, {method: "get"})
+        .then(res => {
+            if (!res.ok) {
+                setIsSearching(false);
+                throw new Error(`Unable to fetch book data from OpenLibrary (${res.status} - ${res.statusText})`)
+            }
+            return res.json()
+        })
+        .then(data => {
+            console.log(data)
+            setBooks(data)
+            setIsSearching(false)
+        })
+        .catch(err =>{
+            setIsSearching(false)
+            console.error(err)
+        })
+    }
+
+    let providerValue = {
+        books: books,
+        isSearching: isSearching,
+        bookSearch: bookSearch
+    }
 
     return (
-        <BookContext.Provider value = {{ books: books, setBooks: setBooks }}>
+        <BookContext.Provider value = {providerValue}>
             {children}
         </ BookContext.Provider>
     )

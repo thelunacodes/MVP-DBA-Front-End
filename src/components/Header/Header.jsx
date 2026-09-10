@@ -5,18 +5,19 @@ import { UseUserContext } from "../../providers/UserProvider"
 import { useNavigate } from "react-router";
 
 export default function Header() {
-    const {isLoggedIn, userIdSetter} = UseUserContext();
+    const {isLoggedIn, setUserId} = UseUserContext();
     const navigate = useNavigate();
     const btnLabel = isLoggedIn ? "Sign Out" : "Sign In";
 
     function signOut() {
-        userIdSetter(null);
+        console.log("sign out!")
+        setUserId(null);
         location.reload();
     }
     
     return (
         <header className="headerContainer">
-            <div className="headerContainerL">
+            <div className="headerContainerL" onClick={() => navigate("/home")}>
                 <FontAwesomeIcon icon={faBookOpen} className="headerIcon" />
                 <p className="headerLabel">Book Reviews</p>
             </div>
