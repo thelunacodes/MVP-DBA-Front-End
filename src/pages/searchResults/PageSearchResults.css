@@ -1,4 +1,22 @@
-.searchResultContainer {
-    margin-top: 15px;
+.searchResultContainer,
+.paginationContainer {
     width: 100%;
+    margin-top: 15px;
+}
+
+.paginationContainer {
+    gap: 5px;
+}
+
+.paginationContainer p {
+    margin: 0;
+}
+
+.chevDisabled {
+    opacity: 40%;
+    cursor: default !important;
+}
+
+.chevIcon {
+    cursor: pointer;
 }

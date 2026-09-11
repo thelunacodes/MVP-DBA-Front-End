@@ -1,14 +1,13 @@
 import { createContext, useContext, useState } from "react";
-import { isEmpty, isNumber } from "../utilFuncs";
+import { getCachedResponse, isEmpty, isNumber, setCachedResponse } from "../utilFuncs";
 
 const BookContext = createContext(undefined);
 
-function searchArgsValidator(searchQuery, page, limit, numFound=null) {
+function searchArgsValidator(searchQuery, page, limit, numFound=null, maxPageNum=null) {
     if (isEmpty(searchQuery)) {
         console.error("Search query must not be empty")
         return false;
     }
-    
 
     if (!isNumber(limit)) {
         console.error(`Value for 'limit' must be a integer. (Value: ${limit} | Type: ${typeof limit})`)
@@ -20,10 +19,10 @@ function searchArgsValidator(searchQuery, page, limit, numFound=null) {
         return false;
     }
     
-    let maxPageNum = isNumber(numFound) ? Math.ceil(numFound / limit) : null;
-    console.log(maxPageNum);
+    // let maxPageNum = isNumber(numFound) ? Math.ceil(numFound / limit) : null;
+    // console.log(maxPageNum);
 
-    if (maxPageNum && page > maxPageNum) {
+    if (numFound && page > maxPageNum) {
         console.error(`Value for 'page' must be a number smaller, or equal, to ${maxPageNum}`)
         return false;
     }
@@ -35,11 +34,21 @@ export function BookProvider({children}) {
     const [ books, setBooks ] = useState([]);
     const [ isSearching, setIsSearching ] = useState(false);
 
-    function bookSearch(searchQuery, page, limit, numFound=null,) {
-        var argsAreValid = searchArgsValidator(searchQuery, page, limit, numFound);
+    function bookSearch(searchQuery, page, limit, numFound=null, maxPageNum=null) {
+        var argsAreValid = searchArgsValidator(searchQuery, page, limit, numFound, maxPageNum);
         if (!argsAreValid) { return; }
 
         setIsSearching(true)
+
+        // Cache API response
+        const cacheKey = `bookSearch:${searchQuery}:${page}:${limit}`;
+        const wasCached = getCachedResponse(cacheKey);
+
+        if (wasCached) {
+            setBooks(wasCached);
+            setIsSearching(false);
+            return;
+        }
 
         let url = `https://openlibrary.org/search.json?title=${searchQuery}&limit=${limit}&page=${page}`
 
@@ -52,7 +61,7 @@ export function BookProvider({children}) {
             return res.json()
         })
         .then(data => {
-            console.log(data)
+            setCachedResponse(cacheKey, data)
             setBooks(data)
             setIsSearching(false)
         })

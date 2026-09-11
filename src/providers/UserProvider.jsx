@@ -40,8 +40,7 @@ export function UserProvider({children}) {
                             username: user ? `${user.name} ${user.surname}` : null }
 
     return (
-        <UserContext.Provider value={providerValue}
-        >
+        <UserContext.Provider value={providerValue} >
             {children}
         </UserContext.Provider>
     )
