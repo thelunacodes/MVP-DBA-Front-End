@@ -1,11 +1,11 @@
 import "./CardBox.css"
 
-export default function CardBox({margin, cardContent, hasHoverResponse, occupyWidth=false, occupyHeight=false, hasRoundedCorner}) {
+export default function CardBox({margin, cardContent, hasHoverResponse, cardWidth, cardHeight, hasRoundedCorner}) {
 
     const cardBoxStyle = {
         '--card-margin': `${margin ?? '0px 0px 0px 0px'}`,
-        '--card-width': `${occupyWidth ? '100%' : 'fit-content'}`,
-        '--card-height': `${occupyHeight ? '100%' : 'fit-content'}`,
+        '--card-width': `${cardWidth ?? 'fit-content'}`,
+        '--card-height': `${cardHeight ?? 'fit-content'}`,
         '--card-cursor': `${hasHoverResponse ? 'pointer' : 'default'}`,
         "--border-radius": `${hasRoundedCorner ? "10px" : "0px"}`
     }

@@ -69,4 +69,7 @@
   margin: 0px;
   font-style: italic;
   font-weight: 400;
+
+  overflow-wrap: break-word;
+  word-break: break-word;
 }

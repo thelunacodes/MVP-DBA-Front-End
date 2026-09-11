@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -23,31 +23,31 @@ export default function PageLogin() {
 
     const navigate = useNavigate()
 
-    //refs
-    const emailRef = useRef(null);
-    const passwordRef = useRef(null);
-    const formRef = useRef(null);
+    //Error messages
+    const [ emailErr, setEmailErr ] = useState("")
+    const [ showEmailErr, setShowEmailErr ] = useState(false)
+
+    const [ passwordErr, setPasswordErr ] = useState("")
+    const [ showPasswordErr, setShowPasswordErr ] = useState(false)
 
     function validateFields() {
         var isValid = true;
 
         // Check if user filled out both fields
-        if (emailRef.current) {
-            if (isEmpty(email)) {
-                emailRef.current.setCustomValidity("Email address is required.")
-                isValid = false
-            } else {
-                emailRef.current.setCustomValidity("")
-            }
-        } 
+        if (isEmpty(email)) {
+            setEmailErr("Email address is required.")
+            setShowEmailErr(true)
+            isValid = false
+        } else {
+            setShowEmailErr(false)
+        }
 
-        if (passwordRef.current) {
-           if (isEmpty(password)) {
-                passwordRef.current.setCustomValidity("Password is required.")
-                isValid = false
-            } else {
-                passwordRef.current.setCustomValidity("")
-            }
+        if (isEmpty(password)) {
+            setPasswordErr("Password is required.")
+            setShowPasswordErr(true)
+            isValid = false
+        } else {
+            setShowPasswordErr(false)
         } 
 
         return isValid;
@@ -66,8 +66,7 @@ export default function PageLogin() {
         setIsLoading(true);
 
         let isValid = validateFields()
-        if (formRef.current && !isValid) {
-            formRef.current.reportValidity();
+        if (!isValid) {
             setIsLoading(false);
             return;
         }
@@ -110,24 +109,22 @@ export default function PageLogin() {
             <title>Book Reviews - Login</title>
 
             <CardBox cardContent={
-                <div>
+                <div className="loginContainer">
                     <div className="loginHeaderRow">
                         <div className="flex vCenter hCenter backIconContainer" onClick={() => navigate("/home")} title="Return to homepage">
                             <FontAwesomeIcon icon={faArrowLeft} className="backIcon"/>
                         </div>
                         <h1 className="loginHeader">Sign in</h1>
                     </div>
-                    <form ref={formRef} className="flex column vCenter hCenter loginForm" onSubmit={login}>
+                    <form className="flex column vCenter hCenter loginForm" onSubmit={login}>
                         <FormField 
                             labelText="Email Address"
                             inputType="email"
                             identifier="Email"
                             inputValue={email}
-                            ref={emailRef}
-                            action={(e) => {
-                                setEmail(e.target.value)
-                                emailRef.current.setCustomValidity("")
-                            }}
+                            errMsg = {emailErr}
+                            showErrMsg={showEmailErr}
+                            action={(e) => setEmail(e.target.value)}
                         />
 
                         <FormField 
@@ -135,11 +132,9 @@ export default function PageLogin() {
                             inputType="password"
                             identifier="Password"
                             inputValue={password}
-                            ref={passwordRef}
-                            action={(e) => {
-                                setPassword(e.target.value)
-                                passwordRef.current.setCustomValidity("")
-                            }}
+                            errMsg = {passwordErr}
+                                showErrMsg={showPasswordErr}
+                                action={(e) => setPassword(e.target.value)}
                         />
                         { showErrMsg && <p className="centeredText errMsg">{errMsg}</p>}
 

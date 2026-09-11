@@ -6,7 +6,7 @@ import "./FormField.css"
 
 
 
-export default function FormField({labelText, identifier, ref=undefined, inputType, inputValue, action, isRequired=false}) {
+export default function FormField({labelText, identifier, inputType, inputValue, errMsg="", showErrMsg=false, action}) {
     const [showPassword, setShowPassword] = useState(false);    
      
     return (
@@ -19,14 +19,14 @@ export default function FormField({labelText, identifier, ref=undefined, inputTy
                     id={identifier} 
                     value={inputValue} 
                     onChange={action} 
-                    ref={ref}
-                    required={isRequired} />
+                    formNoValidate/>
                 { inputType === "password" && 
                     <div className="wrapper showPassword flex vCenter" title={showPassword ? "Hide password" : "Show password"}>
                         <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} onClick={() => setShowPassword(!showPassword)} />    
                     </div>
                 }
             </div>
+            { showErrMsg && <p className="errMsg">{errMsg}</p> }
         </div>
     )
 }

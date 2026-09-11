@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import zxcvbn from "zxcvbn";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -22,12 +22,18 @@ export default function PageRegister() {
     const [ password, setPassword ] = useState("");
     const [ passwordConfirmation, setPasswordConfirmation ] = useState("");
 
-    // Refs
-    const formRef = useRef(null);
-    const fullNameRef = useRef(null);
-    const emailRef = useRef(null);
-    const passwordRef = useRef(null);
-    const pwRepeatRef = useRef(null);
+    // Form Errors
+    const [ fullNameErr, setFullNameErr ] = useState("")
+    const [ showFullNameErr, setShowFullNameErr ] = useState(false)
+
+    const [ emailErr, setEmailErr ] = useState("")
+    const [ showEmailErr, setShowEmailErr ] = useState(false)
+
+    const [ passwordErr, setPasswordErr ] = useState("")
+    const [ showPasswordErr, setShowPasswordErr ] = useState(false)
+
+    const [ pwRepeatErr, setPwRepeatErr ] = useState("")
+    const [ showPwRepeatErr, setShowPwRepeatErr ] = useState(false)
 
     let navigate = useNavigate();
 
@@ -56,56 +62,55 @@ export default function PageRegister() {
         var isValid = true;
 
         // Full name validation
-        if (fullNameRef.current) {
-            const fullNameSplit = fullName.split(" ").filter(Boolean);
+        const fullNameSplit = fullName.split(" ").filter(Boolean);
 
-            if (isEmpty(fullName)) {
-                fullNameRef.current.setCustomValidity("Full name is required.")
-                isValid = false
-            } else if (fullNameSplit.length < 2) { // Check if full name contains surname
-                fullNameRef.current.setCustomValidity("Full name must include a surname.")
-                isValid = false
-            } else {
-                fullNameRef.current.setCustomValidity("")
-            }
-        } 
-
-        // Email validation
-        if (emailRef.current) {
-            if (isEmpty(email)) {
-                emailRef.current.setCustomValidity("Email address is required.")
-                isValid = false
-            } else {
-                emailRef.current.setCustomValidity("")
-            }
-        } 
-
-        // Password validation
-        if (passwordRef.current) {
-            if (isEmpty(password)) { 
-                passwordRef.current.setCustomValidity("Password is required.")
-                isValid = false;
-            } else if (passwordStrength < 2) { // Check if password strengh is, at least, 2 (ok)
-                passwordRef.current.setCustomValidity("Please, choose a stronger password.")
-                isValid = false;
-            } else {
-                passwordRef.current.setCustomValidity("")
-            }
-        } 
-
-        // Password (confirmation) validation
-        if (pwRepeatRef.current) {
-            if (isEmpty(passwordConfirmation)) {
-                pwRepeatRef.current.setCustomValidity("You must confirm your password."); 
-                isValid = false;
-            } else if (password !== passwordConfirmation) { 
-                pwRepeatRef.current.setCustomValidity("You must enter the same value you've used in the \"Password\" field!"); 
-                isValid = false;
-            } else {
-                pwRepeatRef.current.setCustomValidity("")
-            }
+        if (isEmpty(fullName)) {
+            setFullNameErr("Full name is required.")
+            setShowFullNameErr(true)
+            isValid = false
+        } else if (fullNameSplit.length < 2) { // Check if full name contains surname
+            setFullNameErr("Surname is required.")
+            setShowFullNameErr(true)
+            isValid = false
+        } else {
+            setShowFullNameErr(false)
         }
 
+        // Email validation
+        if (isEmpty(email)) {
+            setEmailErr("Email address is required.")
+            setShowEmailErr(true)
+            isValid = false
+        } else {
+            setShowEmailErr(false)
+        }
+
+        // Password validation
+        if (isEmpty(password)) { 
+            setPasswordErr("Password is required.")
+            setShowPasswordErr(true)
+            isValid = false;
+        } else if (passwordStrength < 2) { // Check if password strengh is, at least, 2 (ok)
+            setPasswordErr("Please, choose a stronger password.")
+            setShowPasswordErr(true)
+            isValid = false;
+        } else {
+            setShowPasswordErr(false)
+        }
+        
+        // Password (confirmation) validation
+        if (isEmpty(passwordConfirmation)) {
+            setPwRepeatErr("You must confirm your password."); 
+            setShowPasswordErr(true)
+            isValid = false;
+        } else if (password !== passwordConfirmation) { 
+            setPwRepeatErr("You must enter the same value you've used in the \"Password\" field!"); 
+            setShowPwRepeatErr(true)
+            isValid = false;
+        } else {
+            setShowPwRepeatErr(false)
+        }
+        
         return isValid;
     }
 
@@ -115,8 +120,8 @@ export default function PageRegister() {
         
         var isValid = validateFields();
 
-        if (!isValid && formRef.current) {
-            formRef.current.reportValidity();
+        if (!isValid) {
+            setIsSaving(false);
             return;
         }
 
@@ -157,25 +162,23 @@ export default function PageRegister() {
             <title>Book Reviews - Register</title>
 
             <CardBox cardContent={
-                <div>
+                <div className="registerContainer">
                     <div className="registerHeaderRow">
                         <div className="flex vCenter hCenter backIconContainer" onClick={() => navigate("/home")} title="Return to homepage">
                             <FontAwesomeIcon icon={faArrowLeft} className="backIcon"/>
                         </div>
                         <h1 className="registerHeader">Sign up</h1>
                     </div>
-                    <form ref={formRef} className="flex column vCenter hCenter registerForm" onSubmit={(e) => register(e)}>
+                    <form className="flex column vCenter hCenter registerForm" onSubmit={(e) => register(e)}>
                         
                         <FormField 
                             labelText="Full Name"
                             inputType="text"
                             identifier="FullName"
                             inputValue={fullName}
-                            ref = {fullNameRef}
-                            action={(e) => {
-                                setFullName(e.target.value); 
-                                fullNameRef.current.setCustomValidity("");
-                            }}
+                            errMsg = {fullNameErr}
+                            showErrMsg={showFullNameErr}
+                            action={(e) => setFullName(e.target.value) }
                         />
 
                         <FormField 
@@ -183,11 +186,9 @@ export default function PageRegister() {
                             inputType="email"
                             identifier="Email"
                             inputValue={email}
-                            ref={emailRef}
-                            action={(e) => { 
-                                setEmail(e.target.value);
-                                emailRef.current.setCustomValidity("");
-                            }}
+                            errMsg = {emailErr}
+                            showErrMsg={showEmailErr}
+                            action={(e) => setEmail(e.target.value)}
                         />
 
                         <div className="flex row passwordField">
@@ -196,11 +197,9 @@ export default function PageRegister() {
                                 inputType="password"
                                 identifier="Password"
                                 inputValue={password}
-                                ref={passwordRef}
-                                action={(e) => {
-                                    setPassword(e.target.value); 
-                                    passwordRef.current.setCustomValidity("");
-                                }}
+                                errMsg = {passwordErr}
+                                showErrMsg={showPasswordErr}
+                                action={(e) => setPassword(e.target.value)}
                              />
 
                             <FormField 
@@ -208,11 +207,9 @@ export default function PageRegister() {
                                 inputType="password"
                                 identifier="ConfirmPassword"
                                 inputValue={passwordConfirmation}
-                                ref={pwRepeatRef}
-                                action={(e) => {
-                                    setPasswordConfirmation(e.target.value); 
-                                    pwRepeatRef.current.setCustomValidity("");
-                                }}
+                                errMsg = {pwRepeatErr}
+                                showErrMsg={showPwRepeatErr}
+                                action={(e) => setPasswordConfirmation(e.target.value)}
                             />
                         </div>        
                         <div className="flex column" style={{gap: "15px"}}>

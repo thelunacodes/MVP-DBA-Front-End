@@ -7,6 +7,7 @@ import { UseBookContext } from "../../providers/BookProvider";
 import { isEmpty } from "../../utilFuncs";
 import Header from "../../components/Header/Header";
 import "./PageSearchResults.css"
+import BookCardList from "../../components/BookCardList/BookCardList";
 
 
 export default function PageSearchResults() {
@@ -29,7 +30,7 @@ export default function PageSearchResults() {
 
     // Search books on page load
     useEffect(() => {
-        bookSearch(currSearchQuery, pageNum, 20 )
+        bookSearch(currSearchQuery, pageNum, 10 )
     }, [params])
 
     // Load search results
@@ -63,34 +64,17 @@ export default function PageSearchResults() {
                         }}
                     />
                 </div>
-
-                
-
-                { isSearching 
-                    ?
-                    <div>
-                        <p className="loadingMsg">Loading...</p>
-                    </div>
-                    :
-                    <div>
-                        <p>Results for "{currSearchQuery}" ({numFound}) </p>
-
-                        { (bookRecords === undefined || bookRecords.length === 0) 
-                            ?
-                                <div>
-                                    <p>No results :(</p>
-                                </div>
-                            :
-                                <div>
-                                    { bookRecords.map((book, k) => 
-                                        <div key={k}>
-                                            {book.title}
-                                        </div>
-                                    )}
-                                </div>
-                        }
-                    </div>
-                }
+                <div className="flex column hCenter searchResultContainer">
+                    { isSearching 
+                        ?
+                            <p className="loadingMsg">Loading...</p>
+                        :
+                        <div>
+                            <p className="semibold centeredText">Results ({numFound})</p>
+                            <BookCardList bookList={bookRecords} />
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     )
