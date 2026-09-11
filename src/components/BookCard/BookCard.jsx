@@ -2,7 +2,7 @@ import CardBox from "../CardBox/CardBox"
 import "./BookCard.css"
 
 
-export default function BookCard({book}) {    
+export default function BookCard({book, action=null}) {    
     function formatAuthorList() {
         if (!book.author_name) return "Unknown"
         if (book.author_name.length === 1) return book.author_name[0]
@@ -13,9 +13,17 @@ export default function BookCard({book}) {
         return authors.join(', ') + ' and ' + last;
     }
 
+    function onClickAction() {
+        if (action) {
+            action();
+        }
+
+        return;
+    }
+
     return (
         <CardBox cardContent={
-            <div className="flex row bookCardContainer">
+            <div className="flex row bookCardContainer" onClick={() => onClickAction()}>
                 { book.cover_i
                     ?
                        <img className="bookCoverImg" src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`} alt={`${book.title}'s cover`} />
@@ -33,6 +41,6 @@ export default function BookCard({book}) {
                     <p className="bookAuthor">Author(s): {formatAuthorList()}</p>
                 </div>
             </div>
-        } cardWidth={"100%"}/>
+        } cardWidth={"100%"} hasHoverResponse={onClickAction}/>
     )
 }

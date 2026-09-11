@@ -18,6 +18,18 @@ export function isNumber(val) {
     return false;
 }
 
+export function bookKeyToParameter(key) {
+    if (typeof key !== "string") return ""
+    
+    return key.replaceAll("/","|")
+}
+
+export function parameterToBookKey(key) {
+    if (typeof key !== "string") return ""
+    
+    return key.replaceAll("|","/")
+}
+
 // (External) API cache
 
 const CACHE_TTL_MS = 1000 * 40 * 60; // Cached response will persist for 1 HOUR
@@ -43,3 +55,4 @@ export function setCachedResponse(cacheKey, data) {
         timeStamp: Date.now()
     }));
 }
+
