@@ -1,29 +1,15 @@
+import { useNavigate } from "react-router"
 import CardBox from "../CardBox/CardBox"
 import "./BookCard.css"
+import { bookKeyToParameter, listToStringWithAnd } from "../../utilFuncs";
 
 
-export default function BookCard({book, action=null}) {    
-    function formatAuthorList() {
-        if (!book.author_name) return "Unknown"
-        if (book.author_name.length === 1) return book.author_name[0]
-
-        const authors = [...book.author_name];
-
-        const last = authors.pop();
-        return authors.join(', ') + ' and ' + last;
-    }
-
-    function onClickAction() {
-        if (action) {
-            action();
-        }
-
-        return;
-    }
+export default function BookCard({book}) {    
+    const navigate = useNavigate();
 
     return (
         <CardBox cardContent={
-            <div className="flex row bookCardContainer" onClick={() => onClickAction()}>
+            <div className="flex row bookCardContainer" onClick={() => navigate(`/book/${bookKeyToParameter(book.key)}`)}>
                 { book.cover_i
                     ?
                        <img className="bookCoverImg" src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`} alt={`${book.title}'s cover`} />
@@ -38,9 +24,9 @@ export default function BookCard({book, action=null}) {
                         <p className="semibold bookTitle">{book.title}  {book.first_publish_year && `(${book.first_publish_year})`}</p>
                        
                     </div>
-                    <p className="bookAuthor">Author(s): {formatAuthorList()}</p>
+                    <p className="bookAuthor">Author(s): {listToStringWithAnd(book.author_name) ?? "Unavailable"}</p>
                 </div>
             </div>
-        } cardWidth={"100%"} hasHoverResponse={onClickAction}/>
+        } cardWidth={"100%"} hasHoverResponse={true}/>
     )
 }

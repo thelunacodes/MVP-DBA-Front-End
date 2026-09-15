@@ -30,18 +30,60 @@ function searchArgsValidator(searchQuery, page, limit, numFound=null, maxPageNum
     return true
 }
 
+
+
 export function BookProvider({children}) {
     const [ books, setBooks ] = useState([]);
     const [ isSearching, setIsSearching ] = useState(false);
+    const header = new Headers({
+        "User-Agent": "BookReviews/1.0 (delunacomunicacao@gmail.com)"
+    });
 
-    function bookSearch(searchQuery, page, limit, numFound=null, maxPageNum=null) {
+    async function getBookByKey(bookKey) {
+        setIsSearching(true)
+
+        // Cache API response
+        const cacheKey = `getBookByKey:${bookKey}`;
+        const cachedRes = getCachedResponse(cacheKey);
+
+        if (cachedRes) {
+            setIsSearching(false);
+            return cachedRes;           
+        }
+
+        let url = `https://openlibrary.org/search.json?q=key:"${bookKey}"&fields=key,title,description,author_name,first_publish_year,edition_count,cover_i,subject,language`
+        
+        return await fetch (url, {method: "get"})
+            .then(res => {
+                if (!res.ok) {
+                    isSearching(false);
+                    throw new Error(`Unable to fetch book with key '${bookKey}'.`)
+                }
+                return res.json()
+            })
+            .then(data => {
+                // console.log(data);
+                const book = data.docs?.[0] ?? null
+                // setCachedResponse(cacheKey, data)
+                setIsSearching(false)
+                // console.log(book);
+                return book;
+            })
+            .catch(err => {
+                console.error(err)
+                setIsSearching(false)
+                return null
+            })
+    }
+
+    function getBookByTitle(searchQuery, page, limit, numFound=null, maxPageNum=null) {
         var argsAreValid = searchArgsValidator(searchQuery, page, limit, numFound, maxPageNum);
         if (!argsAreValid) { return; }
 
         setIsSearching(true)
 
         // Cache API response
-        const cacheKey = `bookSearch:${searchQuery}:${page}:${limit}`;
+        const cacheKey = `pagedBookSearch:${searchQuery}:${page}:${limit}`;
         const wasCached = getCachedResponse(cacheKey);
 
         if (wasCached) {
@@ -71,18 +113,19 @@ export function BookProvider({children}) {
         })
     }
 
-    let providerValue = {
-        books: books,
-        isSearching: isSearching,
-        bookSearch: bookSearch
-    }
+        let providerValue = {
+            books: books,
+            isSearching: isSearching,
+            getBookByTitle: getBookByTitle,
+            getBookByKey: getBookByKey
+        }
 
-    return (
-        <BookContext.Provider value = {providerValue}>
-            {children}
-        </ BookContext.Provider>
-    )
-}
+        return (
+            <BookContext.Provider value = {providerValue}>
+                {children}
+            </ BookContext.Provider>
+        )
+    }
 
 export function UseBookContext() {
     const context = useContext(BookContext);

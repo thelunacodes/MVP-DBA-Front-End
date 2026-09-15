@@ -15,7 +15,7 @@ export default function BookCardList({bookList}) {
         <div className="flex column vCenter bookCardLstContainer">
            { bookList.map((b, k) => 
                 <React.Fragment key={k}>
-                    <BookCard book={b} action={() => { console.log(b.key); navigate(`/book/${bookKeyToParameter(b.key)}`) }} />
+                    <BookCard book={b} />
                 </React.Fragment>
            )}
         </div>

@@ -1,0 +1,35 @@
+.noCoverPagePlaceholder {
+    background-color: rgb(206, 206, 206);
+    height: 350px;
+    width:300px;
+    padding: 0px 5px;
+}
+
+.bookCoverPageImg,
+.noCoverPagePlaceholder {
+    border: 2px solid #000000;
+}
+
+.bookCoverPageImg {
+    height: 350px;
+    width: auto;
+}
+
+.bookCardTitle,
+.bookCardAuthors {
+    font-family: var(--font-family);
+    margin: 0;
+}
+
+.bookCardTitle {
+    font-size: 1.3rem;
+}
+
+.bookPageCardContainer {
+    padding: 20px;
+}
+
+.bookInfo1 {
+    width: 100%;
+    background-color: red;
+}

@@ -16,9 +16,7 @@ export default function PageHome() {
 
     function searchBook() {
         if (isEmpty(searchQuery)) return
-
-        // console.log(`Pesquisando por "${searchQuery}"...`)
-        // bookSearch(searchQuery, 1, 20)
+        
         navigate(`/search/${searchQuery}/1`)
     }
 

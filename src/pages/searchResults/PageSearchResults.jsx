@@ -14,7 +14,7 @@ export default function PageSearchResults() {
     const [ searchQuery, setSearchQuery ] = useState("");
     const [ bookRecords, setBookRecords ] = useState([]);
     const [ numFound, setNumFound ] = useState(0);
-    const { bookSearch, books, isSearching } = UseBookContext();
+    const { getBookByTitle, books, isSearching } = UseBookContext();
     
     const navigate = useNavigate();
     
@@ -35,7 +35,7 @@ export default function PageSearchResults() {
     // Search books on page load
     useEffect(() => {
         setBookRecords([]);
-        bookSearch(currSearchQuery, pageNum, limit )
+        getBookByTitle(currSearchQuery, pageNum, limit )
     }, [params])
 
     // Load search results

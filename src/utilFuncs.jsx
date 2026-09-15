@@ -18,6 +18,23 @@ export function isNumber(val) {
     return false;
 }
 
+export function listToStringWithAnd(list) {
+    if (!list) return null
+    if (list.length === 1) return list[0]
+
+    const items = [...list];
+
+    const last = items.pop();
+    return items.join(', ') + ' and ' + last;
+}
+
+export function listToString(list) {
+    if (!list) return null
+    if (list.length === 1) return list[0]
+
+    return list.join(', ');
+}
+
 export function bookKeyToParameter(key) {
     if (typeof key !== "string") return ""
     
