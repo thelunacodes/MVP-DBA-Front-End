@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 import { API_URL } from "../../appConsts";
-import { isEmpty } from "../../utilFuncs";
+import { isEmpty, setCachedResponse } from "../../utilFuncs";
 import { UseUserContext } from "../../providers/UserProvider";
 import FormField from "../../components/FormField/FormField";
 import CardBox from "../../components/CardBox/CardBox";
@@ -90,8 +90,8 @@ export default function PageLogin() {
                 return;
             }
 
-            console.log(data)
             if (data.userId) setUserId(data.userId)
+            setCachedResponse("loggedInUserId",String(data.userId), 86400000) // User login will be stored for 1 day
 
             setShowErrMsg(false)
             setErrMsg("")

@@ -62,11 +62,9 @@ export function BookProvider({children}) {
                 return res.json()
             })
             .then(data => {
-                // console.log(data);
                 const book = data.docs?.[0] ?? null
-                // setCachedResponse(cacheKey, data)
+                setCachedResponse(cacheKey, book)
                 setIsSearching(false)
-                // console.log(book);
                 return book;
             })
             .catch(err => {
@@ -92,7 +90,7 @@ export function BookProvider({children}) {
             return;
         }
 
-        let url = `https://openlibrary.org/search.json?title=${searchQuery}&limit=${limit}&page=${page}`
+        let url = `https://openlibrary.org/search.json?title=${encodeURIComponent(searchQuery)}&limit=${limit}&page=${page}`
 
         fetch (url, {method: "get"})
         .then(res => {

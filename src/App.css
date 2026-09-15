@@ -73,3 +73,25 @@
   overflow-wrap: break-word;
   word-break: break-word;
 }
+
+.divider {
+  height: 2px;
+  width: 100%;
+  background-color: #bdbdbd;
+}
+
+.appButton {
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: var(--font-family);
+
+  padding: 8px 15px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+
+  background-color: #ff3c00;
+  color: #ffffff;
+
+  cursor: pointer;
+}

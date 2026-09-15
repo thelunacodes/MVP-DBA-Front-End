@@ -10,7 +10,7 @@ export default function Header() {
     const btnLabel = isLoggedIn ? "Sign Out" : "Sign In";
 
     function signOut() {
-        console.log("sign out!")
+        localStorage.removeItem("loggedInUserId");
         setUserId(null);
         location.reload();
     }

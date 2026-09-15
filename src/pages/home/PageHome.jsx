@@ -17,7 +17,7 @@ export default function PageHome() {
     function searchBook() {
         if (isEmpty(searchQuery)) return
         
-        navigate(`/search/${searchQuery}/1`)
+        navigate(`/search/${encodeURIComponent(searchQuery)}/1`)
     }
 
     return (

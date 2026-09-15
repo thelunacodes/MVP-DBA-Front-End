@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { cache, createContext, useContext, useEffect, useState } from "react";
 import { API_URL } from "../appConsts";
+import { getCachedResponse } from "../utilFuncs";
 
 const UserContext = createContext(undefined);
 
@@ -7,7 +8,15 @@ export function UserProvider({children}) {
     const [userId, setUserId] = useState(null);
     const [user, setUser] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    
+
+    // Check if user has already logged in
+    useEffect(() => {
+        const cachedUserId = getCachedResponse("loggedInUserId");
+        if (cachedUserId) {
+            setUserId(Number(cachedUserId)); 
+        }
+    }, [])
+
     useEffect(() => {
         if (typeof userId === 'number') {
             let url = `${API_URL}/userbyid?id=${userId}`;
@@ -18,8 +27,6 @@ export function UserProvider({children}) {
                     return res.json()
                 })
                 .then(data => {
-                    // console.log("User:", data)
-
                     setUser(data);
                     setIsLoggedIn(true)
                 })

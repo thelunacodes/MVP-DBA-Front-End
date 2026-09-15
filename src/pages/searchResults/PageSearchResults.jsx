@@ -29,7 +29,7 @@ export default function PageSearchResults() {
     function searchBook() {
         if (isEmpty(searchQuery)) return
 
-        navigate(`/search/${searchQuery}/1`)
+        navigate(`/search/${encodeURIComponent(searchQuery)}/1`)
     }
 
     // Search books on page load
@@ -49,13 +49,13 @@ export default function PageSearchResults() {
     function pageBack() {
         if (pageNum == "1") return;
 
-        navigate(`/search/${currSearchQuery}/${Number(pageNum)-1}`)
+        navigate(`/search/${encodeURIComponent(currSearchQuery)}/${Number(pageNum)-1}`)
     }
 
     function nextPage() {
         if (pageNum == `${maxPageNum}`) return;
 
-        navigate(`/search/${currSearchQuery}/${Number(pageNum)+1}`)
+        navigate(`/search/${encodeURIComponent(currSearchQuery)}/${Number(pageNum)+1}`)
     }
 
     return (
@@ -86,7 +86,7 @@ export default function PageSearchResults() {
                             <p className="centeredText semibold loadingMsg">Loading...</p>
                         :
                         <div>
-                            <p className="semibold centeredText">Results for "{currSearchQuery}" ({numFound})</p>
+                            <p className="semibold centeredText resultsForMsg">Results for "{currSearchQuery}" ({numFound})</p>
                             <BookCardList bookList={bookRecords} />
                             <div className="flex row vCenter hCenter paginationContainer"> 
                                 <div className="wrapper" title="Go to previous page">

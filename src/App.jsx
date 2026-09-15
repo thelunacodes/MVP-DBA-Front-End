@@ -7,9 +7,9 @@ import PageLogin from './pages/login/PageLogin'
 import PageRegister from './pages/register/PageRegister'
 import PageSearchResults from './pages/searchResults/PageSearchResults'
 import PageBook from './pages/book/PageBook'
+import { UseUserContext } from './providers/UserProvider'
 
 export default function App() {
-
   return (
     <BrowserRouter>
       <AllProvider>
