@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import zxcvbn from "zxcvbn";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router";
-
-import CardBox from "../../components/CardBox/CardBox"
-import FormField from "../../components/FormField/FormField";
-import { API_URL } from "../../appConsts";
 
 import "./PageRegister.css"
 import { isEmpty } from "../../utilFuncs";
-
+import CardBox from "../../components/CardBox/CardBox"
+import FormField from "../../components/FormField/FormField";
+import { API_URL } from "../../appConsts";
 
 export default function PageRegister() {
     const [ passwordStrength, setPasswordStrength ] = useState(0);
@@ -135,9 +133,7 @@ export default function PageRegister() {
             body: JSON.stringify(registerJson)
         })
         .then(res => {
-            if (!res.ok) {
-                throw new Error(`Unable to create new user (${res.status} - ${res.statusText})`);
-            } 
+            if (!res.ok) throw new Error(`Unable to create new user (${res.status} - ${res.statusText})`); 
             return res.json()
         })
         .then(data => {

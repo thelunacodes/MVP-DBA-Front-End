@@ -1,8 +1,9 @@
-import "./Header.css"
+import { useNavigate } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons"
-import { UseUserContext } from "../../providers/UserProvider"
-import { useNavigate } from "react-router";
+
+import "./Header.css"
+import { UseUserContext } from "../../UserProvider"
 
 export default function Header() {
     const {isLoggedIn, setUserId} = UseUserContext();

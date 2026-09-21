@@ -6,24 +6,3 @@
     font-size: 1.1rem;
 }
 
-.reviewsInputContainer {
-    width: 70%
-}
-
-.reviewsTextArea {
-    width: 100%;
-    height: 200px;
-    resize: none;
-
-    font-size: 1rem;
-    padding: 15px;
-    font-family: var(--font-family);
-    border-radius: 5px;;
-    box-sizing: border-box;
-}
-
-.reviewsSubmitContainer {
-    width: 100%;
-    flex-direction: row-reverse;
-    margin-top: 5px;
-}

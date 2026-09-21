@@ -1,21 +1,53 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
 
-import { listToStringWithAnd, parameterToBookKey, listToString } from "../../utilFuncs.jsx";
-import { UseBookContext } from "../../providers/BookProvider.jsx";
+import "./PageBook.css"
+import { listToStringWithAnd, parameterToBookKey, listToString, setCachedResponse, getCachedResponse } from "../../utilFuncs.jsx";
 import Header from "../../components/Header/Header.jsx"
 import CardBox from "../../components/CardBox/CardBox.jsx";
 import ReviewsArea from "../../components/ReviewsArea/ReviewsArea.jsx";
-import "./PageBook.css"
 
 
 export default function PageBook() {
-    const { getBookByKey, isSearching} = UseBookContext();
-    const [ book, setBook ] = useState(null);
+    const [book, setBook] = useState(null);
+    const [loadingBook, setLoadingBook] = useState(false);
+
     const params = useParams();
 
+    async function getBookByKey(bookKey) {
+        setLoadingBook(true)
+
+        // Cache API response
+        const cacheKey = `getBookByKey:${bookKey}`;
+        const cachedRes = getCachedResponse(cacheKey);
+
+        if (cachedRes) {
+            setLoadingBook(false);
+            return cachedRes;           
+        }
+
+        let url = `https://openlibrary.org/search.json?q=key:"${bookKey}"&fields=key,title,description,author_name,first_publish_year,edition_count,cover_i,subject,language`
+        
+        return await fetch (url, {method: "get"})
+            .then(res => {
+                if (!res.ok) throw new Error(`Unable to fetch book with key '${bookKey}'.`)
+                return res.json()
+            })
+            .then(data => {
+                const book = data.docs?.[0] ?? null
+                setCachedResponse(cacheKey, book)
+                setLoadingBook(false)
+                return book;
+            })
+            .catch(err => {
+                console.error(err)
+                setLoadingBook(false)
+                return null
+            })
+    }
+
     useEffect(() => {
-        let bookKey = parameterToBookKey(params.key);
+        let bookKey = parameterToBookKey(params.key)
         getBookByKey(bookKey).then(setBook);
     }, [])
 
@@ -24,7 +56,7 @@ export default function PageBook() {
             <title>Book Reviews - {book?.title}</title>
             <Header />
             <div className="flex column vCenter vScroll pageContentContainer">
-                { isSearching 
+                { loadingBook 
                     ? 
                         <p className="centeredText semibold loadingMsg">Loading...</p>
                     :
@@ -52,10 +84,10 @@ export default function PageBook() {
                                     </div>
                                 </div>
                                 
-                                <ReviewsArea />
+                                <ReviewsArea bookKey={parameterToBookKey(params.key)}/>
                             </div>
                         
-                        } cardWidth="100%" hasRoundedCorner={true} />    
+                        } cardWidth="80%" hasRoundedCorner={true} />    
                 }
             </div>  
         </div>

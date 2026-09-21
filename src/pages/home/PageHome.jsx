@@ -1,12 +1,14 @@
-import "./PageHome.css"
-import { UseUserContext } from "../../providers/UserProvider";
-import Header from "../../components/Header/Header";
+
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router";
-import { UseBookContext } from "../../providers/BookProvider";
+
+
+import "./PageHome.css"
 import { isEmpty } from "../../utilFuncs";
+import { UseUserContext } from "../../UserProvider";
+import Header from "../../components/Header/Header";
 
 export default function PageHome() {
     const [ searchQuery, setSearchQuery ] = useState("");

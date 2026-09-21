@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router"
-import CardBox from "../CardBox/CardBox"
-import "./BookCard.css"
-import { bookKeyToParameter, listToStringWithAnd } from "../../utilFuncs";
 
+import CardBox from "../CardBox/CardBox"
+import { bookKeyToParameter, listToStringWithAnd } from "../../utilFuncs";
+import "./BookCard.css"
 
 export default function BookCard({book}) {    
     const navigate = useNavigate();
@@ -27,6 +27,6 @@ export default function BookCard({book}) {
                     <p className="bookAuthor">Author(s): {listToStringWithAnd(book.author_name) ?? "Unavailable"}</p>
                 </div>
             </div>
-        } cardWidth={"100%"} hasHoverResponse={true}/>
+        } cardWidth={"100%"} hasHoverResponse={true} hasRoundedCorner={true}/>
     )
 }

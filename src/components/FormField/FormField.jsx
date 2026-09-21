@@ -4,8 +4,6 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 import "./FormField.css"
 
-
-
 export default function FormField({labelText, identifier, inputType, inputValue, errMsg="", showErrMsg=false, action}) {
     const [showPassword, setShowPassword] = useState(false);    
      
