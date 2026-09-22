@@ -6,7 +6,7 @@ import { isNumber } from "../../../../utilFuncs";
 
 
 export default function DeleteReviewConfirmation({reviewId, reviewList, reviewListSetter}) {
-    const {setShowModal, closeModal} = UseModalContext();
+    const {setShowModal, closeModal, setCanCloseModal} = UseModalContext();
     const [isDeleting, setIsDeleting] = useState(false);
     console.log(`Review ID to delete: ${reviewId}`);
 
@@ -14,6 +14,7 @@ export default function DeleteReviewConfirmation({reviewId, reviewList, reviewLi
     function deleteReview() {
         if (!isNumber(reviewId)) return;
 
+        setCanCloseModal(false)
         setIsDeleting(true);
 
         let url = `${API_URL}/review?pk_id=${reviewId}`
@@ -28,11 +29,13 @@ export default function DeleteReviewConfirmation({reviewId, reviewList, reviewLi
         })
         .then(_ => {
             setIsDeleting(false);
+            setCanCloseModal(true);
             reviewListSetter(reviewList.filter(r => r.pk_id != reviewId))
             setShowModal(false);
         })
         .catch(err => {
             setIsDeleting(false)
+            setCanCloseModal(true);
             console.error(err)
         })
     }
