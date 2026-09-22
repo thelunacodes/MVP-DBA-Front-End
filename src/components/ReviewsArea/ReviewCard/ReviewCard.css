@@ -1,0 +1,44 @@
+.reviewCardContainer {
+    padding: 10px 15px;
+}
+
+.reviewUserName,
+.reviewComment,
+.reviewDatetime {
+    margin: 0;
+    font-size: 1rem;
+    font-family: var(--font-family);
+}
+
+.reviewUserName {
+    margin-bottom: 7px;
+}
+
+.reviewCardBottom {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    margin-top: 10px;
+    width: 100%
+}
+
+.reviewComment {
+    margin-top: 5px;
+}
+
+.reviewDatetime,
+.reviewBottomBtn {
+    font-size: 0.95rem !important;
+}
+
+.editDeleteReview {
+    gap: 8px;
+}
+
+.reviewBottomBtn {
+    margin: 0;
+}
+
+.reviewBottomBtn:hover {
+    cursor: pointer;
+    text-decoration: underline;
+} 

@@ -21,10 +21,11 @@
 }
 
 .starRatingContainer {
-    width: 100%;
+    min-width: 135px;
+    width: 30%;
     margin-bottom: 15px;
 }
 
 .ratingRangeInput {
-    width: 67%;   
+    width: 100%;   
 }

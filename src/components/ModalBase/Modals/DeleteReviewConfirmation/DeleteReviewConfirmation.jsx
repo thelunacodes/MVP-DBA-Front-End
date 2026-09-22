@@ -1,0 +1,51 @@
+import { useState } from "react";
+import { API_URL } from "../../../../appConsts";
+import { UseModalContext } from "../../../../Providers/ModalProvider"
+import "./DeleteReviewConfirmation.css"
+import { isNumber } from "../../../../utilFuncs";
+
+
+export default function DeleteReviewConfirmation({reviewId, reviewList, reviewListSetter}) {
+    const {setShowModal, closeModal} = UseModalContext();
+    const [isDeleting, setIsDeleting] = useState(false);
+    console.log(`Review ID to delete: ${reviewId}`);
+
+
+    function deleteReview() {
+        if (!isNumber(reviewId)) return;
+
+        setIsDeleting(true);
+
+        let url = `${API_URL}/review?pk_id=${reviewId}`
+        fetch(url, {method: "delete", 
+            headers: {
+                "content-type": "application/json"
+            },
+            body: {pk_id: reviewId}})
+        .then (res => {
+            if (!res.ok) throw new Error(`Unable to delete review (${res.status} - ${res.statusText})`)
+            return res.json()
+        })
+        .then(_ => {
+            setIsDeleting(false);
+            reviewListSetter(reviewList.filter(r => r.pk_id != reviewId))
+            setShowModal(false);
+        })
+        .catch(err => {
+            setIsDeleting(false)
+            console.error(err)
+        })
+    }
+
+    return (
+        <div className="flex column vCenter delReviewContainer">
+            <p className="semibold" style={{fontSize: "1rem"}}>Are you sure?</p>
+            <p>Your review will be lost forever! (a very long time)</p>
+            <div className="flex row hCenter" style={{marginTop: "25px",gap: "5px"}}>
+                <button className="appButton cancelBtn" onClick={() => closeModal()} disabled={isDeleting}>Cancel</button>
+                <button className="appButton" disabled={isDeleting} onClick={() => deleteReview()}>Confirm</button>
+            </div>
+        
+        </div>
+    )
+}

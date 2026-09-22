@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { API_URL } from "./appConsts";
-import { getCachedResponse } from "./utilFuncs";
+import { API_URL } from "../appConsts";
+import { formatFullName, getCachedResponse } from "../utilFuncs";
 
 const UserContext = createContext(undefined);
 
@@ -44,7 +44,7 @@ export function UserProvider({children}) {
                             currUserId: userId, 
                             setUserId: setUserId,
                             isLoggedIn: isLoggedIn, 
-                            username: user ? `${user.name} ${user.surname}` : null }
+                            username: user ? formatFullName(user) : null }
 
     return (
         <UserContext.Provider value={providerValue} >

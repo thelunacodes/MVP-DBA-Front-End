@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons"
 
 import "./Header.css"
-import { UseUserContext } from "../../UserProvider"
+import { UseUserContext } from "../../Providers/UserProvider"
 
 export default function Header() {
     const {isLoggedIn, setUserId} = UseUserContext();

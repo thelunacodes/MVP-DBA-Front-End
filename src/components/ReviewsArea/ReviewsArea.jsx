@@ -37,14 +37,14 @@ export default function ReviewsArea({bookKey="no key"}) {
     return (
         <div className="flex column vCenter reviewsArea">
             <p className="reviewsHeader semibold">Reviews</p>
-            <ReviewSubmission bookKey={bookKey}/>
+            <ReviewSubmission bookKey={bookKey} reviews={bookReviews} setReviews={setBookReviews}/>
 
             {
                 loadingReviews 
                 ?
                     <p className="centeredText semibold loadingMsg">Loading...</p>
                 :
-                    <ReviewList reviews={bookReviews}/>
+                    <ReviewList reviews={bookReviews} reviewsSetter={setBookReviews} />
             }
         </div>
     )

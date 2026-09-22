@@ -1,0 +1,15 @@
+.delReviewContainer {
+    padding: 25px 30px;
+}
+
+.cancelBtn {
+    background-color: #ffffff !important;
+    color: #ff3c00 !important;
+    outline-color: #ff3c00 !important;
+    outline-style: solid !important;
+    outline-width: 2px !important;
+}
+
+.delReviewContainer p {
+    margin: 0;
+}

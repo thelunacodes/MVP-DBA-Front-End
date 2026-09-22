@@ -87,7 +87,7 @@ export default function PageBook() {
                                 <ReviewsArea bookKey={parameterToBookKey(params.key)}/>
                             </div>
                         
-                        } cardWidth="80%" hasRoundedCorner={true} />    
+                        } cardWidth="80%" minCardWidth={"1000px"} hasRoundedCorner={true} />    
                 }
             </div>  
         </div>

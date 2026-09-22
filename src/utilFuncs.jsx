@@ -47,6 +47,30 @@ export function parameterToBookKey(key) {
     return key.replaceAll("|","/")
 }
 
+export function formatFullName(user) {
+    return `${user.name} ${user.surname}`;
+}
+
+export function formatDateTime(isoDatetime, includeTime=true) {
+    const errStr = "INVALID DATE/TIME FORMAT";
+
+    if (isoDatetime === undefined || isoDatetime === null) return errStr;
+
+    var datetime = new Date(isoDatetime);
+    // console.log(datetime);
+
+    var day = String(datetime.getDate()).padStart(2, 0);
+    var month = String(datetime.getMonth() + 1).padStart(2, 0);
+    var year = datetime.getFullYear();
+
+    if (!includeTime) return `${day}/${month}/${year}`;
+
+    var hour = String(datetime.getHours()).padStart(2, 0);
+    var minutes = String(datetime.getMinutes()).padStart(2, 0);
+    
+    return `${day}/${month}/${year} ${hour}:${minutes}`
+}
+
 // (External) API cache
 const DEFAULT_CACHE_TTL = 1000 * 40 * 60; // 1 hour
 

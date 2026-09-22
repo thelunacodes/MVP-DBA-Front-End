@@ -1,8 +1,9 @@
 import React from "react"
 import "./ReviewList.css"
+import ReviewCard from "../ReviewCard/ReviewCard"
 
 
-export default function ReviewList({reviews=[]}) {
+export default function ReviewList({reviews=[], reviewsSetter}) {
 
     return (
         <>
@@ -12,10 +13,10 @@ export default function ReviewList({reviews=[]}) {
                     <p>There're no reviews for this book yet.</p>
                 </div>
                 :
-                <div>
-                    {reviews.map((review,idx) => 
-                        <React.Fragment key={idx}> 
-                            {JSON.stringify(review)}
+                <div className="flex column vCenter reviewListContainer" >
+                    {reviews.map((r,k) => 
+                        <React.Fragment key={k}> 
+                            <ReviewCard review={r} reviewList={reviews} reviewListSetter={reviewsSetter}/>
                         </React.Fragment>
                     )}
                 </div>

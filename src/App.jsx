@@ -7,12 +7,15 @@ import PageSearchResults from './pages/searchResults/PageSearchResults'
 import PageBook from './pages/book/PageBook'
 
 import './App.css'
-import { UserProvider } from './UserProvider'
+import ProviderWrapper from './Providers/ProviderWrapper'
+import ModalBase from './components/ModalBase/ModalBase'
 
 export default function App() {
   return (
     <BrowserRouter>
-      <UserProvider>
+      <ProviderWrapper>
+        <ModalBase />
+
         <Routes>
           <Route path='/'> 
             <Route index element={<Navigate to='/home' replace/>}/> 
@@ -23,7 +26,7 @@ export default function App() {
             <Route path='/book/:key' element={<PageBook />} />
           </Route>
         </Routes>
-      </UserProvider>
+      </ProviderWrapper>
     </BrowserRouter>
   )
 }

@@ -5,7 +5,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 import { API_URL } from "../../appConsts";
 import { isEmpty, setCachedResponse } from "../../utilFuncs";
-import { UseUserContext } from "../../UserProvider";
+import { UseUserContext } from "../../Providers/UserProvider";
 import FormField from "../../components/FormField/FormField";
 import CardBox from "../../components/CardBox/CardBox";
 import "./PageLogin.css"

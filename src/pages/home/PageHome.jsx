@@ -7,7 +7,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import "./PageHome.css"
 import { isEmpty } from "../../utilFuncs";
-import { UseUserContext } from "../../UserProvider";
+import { UseUserContext } from "../../Providers/UserProvider";
 import Header from "../../components/Header/Header";
 
 export default function PageHome() {
