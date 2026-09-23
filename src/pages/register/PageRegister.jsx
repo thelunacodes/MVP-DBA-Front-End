@@ -9,8 +9,11 @@ import { isEmpty } from "../../utilFuncs";
 import CardBox from "../../components/CardBox/CardBox"
 import FormField from "../../components/FormField/FormField";
 import { API_URL } from "../../appConsts";
+import { UseModalContext } from "../../Providers/ModalProvider";
+import RegisterSuccessMessage from "../../components/ModalBase/Modals/RegisterSuccessMessage/RegisterSuccessMessage";
 
 export default function PageRegister() {
+    const { setModalContent, setShowModal } = UseModalContext();
     const [ passwordStrength, setPasswordStrength ] = useState(0);
     const [ isSaving, setIsSaving ] = useState(false);
     
@@ -136,10 +139,9 @@ export default function PageRegister() {
             if (!res.ok) throw new Error(`Unable to create new user (${res.status} - ${res.statusText})`); 
             return res.json()
         })
-        .then(data => {
-            //TODO: modal de sucesso :D
-            setIsSaving(false)
-            navigate("/login")
+        .then(_ => {
+            setModalContent(<RegisterSuccessMessage setIsSaving={setIsSaving} />)
+            setShowModal(true)
         })
         .catch(err => {
             setIsSaving(false)

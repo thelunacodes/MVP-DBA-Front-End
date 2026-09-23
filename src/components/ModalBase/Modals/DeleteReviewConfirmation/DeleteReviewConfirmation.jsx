@@ -42,9 +42,9 @@ export default function DeleteReviewConfirmation({reviewId, reviewList, reviewLi
 
     return (
         <div className="flex column vCenter delReviewContainer">
-            <p className="semibold" style={{fontSize: "1rem"}}>Are you sure?</p>
+            <p className="semibold" style={{fontSize: "1.2rem", marginBottom: "5px"}}>Are you sure?</p>
             <p>Your review will be lost forever! (a very long time)</p>
-            <div className="flex row hCenter" style={{marginTop: "25px",gap: "5px"}}>
+            <div className="flex row hCenter" style={{marginTop: "25px",gap: "5px", boxSizing: "border-box", alignItems: "center"}}>
                 <button className="appButton cancelBtn" onClick={() => closeModal()} disabled={isDeleting}>Cancel</button>
                 <button className="appButton" disabled={isDeleting} onClick={() => deleteReview()}>Confirm</button>
             </div>

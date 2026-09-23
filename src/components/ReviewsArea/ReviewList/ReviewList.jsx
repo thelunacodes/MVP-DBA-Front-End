@@ -16,7 +16,7 @@ export default function ReviewList({reviews=[], reviewsSetter}) {
                 <div className="flex column vCenter reviewListContainer" >
                     {reviews.map((r,k) => 
                         <React.Fragment key={k}> 
-                            <ReviewCard review={r} reviewList={reviews} reviewListSetter={reviewsSetter}/>
+                            <ReviewCard review={r} reviewIdx={k} reviewList={reviews} reviewListSetter={reviewsSetter}/>
                         </React.Fragment>
                     )}
                 </div>

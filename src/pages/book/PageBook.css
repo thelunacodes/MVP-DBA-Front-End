@@ -25,6 +25,11 @@
     font-size: 1.3rem;
 }
 
+.bookCardAuthors {
+    font-size: 0.95rem;
+    margin-top: 3px;
+}
+
 .bookPageCardContainer {
     padding: 25px 30px;
 }

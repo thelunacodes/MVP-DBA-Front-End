@@ -12,10 +12,6 @@ export default function ReviewSubmission({bookKey, reviews, setReviews}) {
     const [reviewScore, setReviewScore] = useState(0)
     const [reviewComment, setReviewComment] = useState("")
     const delay = ms => new Promise(res => setTimeout(res, ms));
-    
-    function handleRatingChange(newValue="no key") {
-        setReviewScore(Number(newValue));
-    }
 
     function resetFields() {
         setReviewComment("")
@@ -48,7 +44,6 @@ export default function ReviewSubmission({bookKey, reviews, setReviews}) {
         .then(async res => {
             if (!res.ok) {
                 await delay(1000) // 1 second
-                setIsSendingReview(false)
                 throw new Error(`Unable to save book review (${res.status} - ${res.statusText})`);
             } 
             return res.json()
@@ -73,17 +68,17 @@ export default function ReviewSubmission({bookKey, reviews, setReviews}) {
                     (<div className="flex column vCenter reviewsInputContainer">
                         <div className="flex column vCenter starRatingContainer">
                             <StarRating rating={reviewScore} maxScore={5} hasEmptyStars={true}/>
-                            <input disabled={isSendingReview} className="ratingRangeInput" type="range" value={reviewScore} min="0" max="5" step="0.5" onChange={(e) => handleRatingChange(e.target.value)} />
+                            <input disabled={isSendingReview} className="ratingRangeInput" type="range" value={reviewScore} min="0" max="5" step="0.5" onChange={(e) => setReviewScore(Number(e.target.value))} />
                         </div>
                         
-                        <textarea className="reviewsTextArea" value={reviewComment} onChange={(e) => setReviewComment(e.target.value)} placeholder="Write your review..." disabled={isSendingReview} />
+                        <textarea className="reviewsTextArea" maxLength="420" value={reviewComment} onChange={(e) => setReviewComment(e.target.value)} placeholder="Write your review..." disabled={isSendingReview} />
                         <div className="flex reviewsSubmitContainer">
                             <button title="Submit review" className="appButton" disabled={isSendingReview} onClick={() => saveReview()}>Submit</button>
                         </div>
                     </div>)
                 :
-                <div className="reviewsInputContainer">
-                    <textarea className="reviewsTextArea" value="You must have an account to write a review!" disabled />
+                <div className="flex hCenter reviewsInputContainer">
+                    <p>You must be logged in to leave a review!</p>
                 </div>
             }
         </>
