@@ -21,7 +21,6 @@ export default function ReviewsArea({bookKey="no key"}) {
             })
             .then(data => {
                 setLoadingReviews(false)
-                console.log(data.review)
                 setBookReviews(data.review)
             })
             .catch(err => {

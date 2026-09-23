@@ -24,7 +24,6 @@ export default function PageSearchResults() {
 
     const limit = 10;
     const maxPageNum = Math.ceil(numFound / limit)
-    // console.log(maxPageNum)
 
     function searchArgsValidator(searchQuery, page, limit, numFound=null, maxPageNum=null) {
         if (isEmpty(searchQuery)) {

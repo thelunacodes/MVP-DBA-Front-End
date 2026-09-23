@@ -1,5 +1,4 @@
 export function isEmpty(str) {
-    // console.log(`Value: ${str} | Type: ${typeof str}`)
     
     if (typeof str === "string") return str.trim() === ""
 
@@ -57,7 +56,6 @@ export function formatDateTime(isoDatetime, includeTime=true) {
     if (isoDatetime === undefined || isoDatetime === null) return errStr;
 
     var datetime = new Date(isoDatetime);
-    // console.log(datetime);
 
     var day = String(datetime.getDate()).padStart(2, 0);
     var month = String(datetime.getMonth() + 1).padStart(2, 0);
@@ -89,7 +87,6 @@ export function getCachedResponse(cacheKey){
 }
 
 export function setCachedResponse(cacheKey, data, cacheTTL=DEFAULT_CACHE_TTL) {
-    // console.log(`Cachekey: ${cacheKey} | Data: ${data}`)
     localStorage.setItem(cacheKey, JSON.stringify({
         data,
         timeStamp: Date.now(),

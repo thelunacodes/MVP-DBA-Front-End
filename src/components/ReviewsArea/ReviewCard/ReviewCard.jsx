@@ -11,13 +11,12 @@ import DeleteReviewConfirmation from "../../ModalBase/Modals/DeleteReviewConfirm
 
 
 export default function ReviewCard({review, reviewIdx, reviewList, reviewListSetter}) {
-    const { currUserId, username } = UseUserContext();
+    const { currUserId, username, isLoggedIn } = UseUserContext();
     const [editMode, setEditMode] = useState(false)
     const [reviewUserName, setReviewUserName] = useState("")
     
     // Get username
     useEffect(() => {
-        console.log(`currUserId: ${currUserId}`)
 
         if (currUserId === Number(review.user_id)) {
             setReviewUserName(username);
@@ -44,11 +43,74 @@ export default function ReviewCard({review, reviewIdx, reviewList, reviewListSet
     const [liked, setLiked] = useState(false)
     const [likeCount, setLikeCount] = useState(0)
 
-    function likeReview() {
-        setLiked(!liked)
-        setLikeCount(c => !liked ? c + 1 : c - 1)
+    useEffect(() => {
+        let url = `${API_URL}/like?review_id=${review.pk_id}`
+            fetch (url, {method:"get"})
+                .then(res => {
+                    if (!res.ok) throw new Error(`Unable to fetch likes from review (${res.status} - ${res.statusText})`);""
+                    return res.json()
+                })
+                .then(data => {
+                    setLikeCount(data.likes.length);
+                    let userLike = data.likes.find(l => l.user_id === currUserId)
+                    if (userLike) {
+                        setLiked(true);
+                    }
+                })
+                .catch(err => {
+                    console.error(err)
+                    setLikeCount(0)
+                })
+        if (isLoggedIn) {
+            
+        }
+    }, [])
 
-        //TODO: registrar like
+    function likeOrUnlikeReview() {
+        if (!isLoggedIn) return;
+
+        if (liked) {
+            unlikeReview()
+            return;
+        } 
+
+        likeReview()
+    }
+
+    function likeReview() {
+        let url = `${API_URL}/like`
+        fetch(url, {method: 'put',
+            headers: {
+                "content-type": "application/json"
+            }, 
+            body: JSON.stringify({user_id: currUserId, review_id: review.pk_id})})
+                .then(res => {
+                    if (!res.ok) throw new Error(`Unable to register like (${res.status} - ${res.statusText})`);
+                    return res.json();
+                })
+                .then(data => {
+                    setLiked(true)
+                    setLikeCount(c => c+1)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+    }
+
+    function unlikeReview() {
+        let url = `${API_URL}/like?user_id=${currUserId}&review_id=${review.pk_id}`
+        fetch(url, {method: 'delete'})
+                .then(res => {
+                    if (!res.ok) throw new Error(`Unable to delete like (${res.status} - ${res.statusText})`);
+                    return res.json();
+                })
+                .then(data => {
+                    setLiked(false)
+                    setLikeCount(c => c-1)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
     }
 
     //Edit stuff
@@ -145,20 +207,17 @@ export default function ReviewCard({review, reviewIdx, reviewList, reviewListSet
 
                         <div className="flex reviewCardBottom">
                             <p className="reviewDatetime secondaryText">{formatDateTime(review.created_at)}</p> 
-                        
-                            <div className="flex row reviewCardBottomBtns"> 
-                                <p className={`reviewBottomBtn secondaryText ${liked && 'likedReview'}`} onClick={() => likeReview()}>{liked ? 'Unlike' : 'Like'} ({likeCount})</p>
-                                { review.user_id === currUserId && 
-                                    <>
-                                        <p title="Edit review" className="reviewBottomBtn secondaryText" onClick={() => setEditMode(true)}>Edit</p>
-                                        <p title="Delete review" className="reviewBottomBtn secondaryText" onClick={() => showDeleteReviewConfirmationModal()}>Delete</p>
-                                    </>
-                            }
-                            </div>
-                            
+                                <div className="flex row reviewCardBottomBtns"> 
+                                    <p className={`reviewBottomBtn secondaryText ${liked && 'liked'} ${isLoggedIn && 'hoverReact'}`} onClick={() => likeOrUnlikeReview()}>Like{liked && 'd'} ({likeCount})</p>
+                                    { review.user_id === currUserId && 
+                                        <>
+                                            <p className="reviewBottomBtn hoverReact secondaryText" onClick={() => setEditMode(true)}>Edit</p>
+                                            <p className="reviewBottomBtn hoverReact secondaryText" onClick={() => showDeleteReviewConfirmationModal()}>Delete</p>
+                                        </>
+                                    }
+                                </div>  
                         </div>
                     </>
-                    
                 }
                 
             </div>

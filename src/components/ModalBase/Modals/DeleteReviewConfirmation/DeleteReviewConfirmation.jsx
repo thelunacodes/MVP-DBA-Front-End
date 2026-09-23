@@ -8,8 +8,6 @@ import { isNumber } from "../../../../utilFuncs";
 export default function DeleteReviewConfirmation({reviewId, reviewList, reviewListSetter}) {
     const {setShowModal, closeModal, setCanCloseModal} = UseModalContext();
     const [isDeleting, setIsDeleting] = useState(false);
-    console.log(`Review ID to delete: ${reviewId}`);
-
 
     function deleteReview() {
         if (!isNumber(reviewId)) return;

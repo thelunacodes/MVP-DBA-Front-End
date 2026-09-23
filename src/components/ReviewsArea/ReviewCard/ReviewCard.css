@@ -40,10 +40,10 @@
     margin: 0;
 }
 
-.reviewBottomBtn:hover {
+.hoverReact:hover {
     cursor: pointer;
     text-decoration: underline;
-} 
+}
 
 .rEditCommentInput {
     width: 100%;
@@ -57,7 +57,7 @@
     box-sizing: border-box;
 }
 
-.likedReview { color: #ff3c00 !important}
+.liked { color: #ff3c00 !important}
 
 .rEditScoreContainer {
     margin: 15px 0px;
