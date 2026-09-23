@@ -1,16 +1,44 @@
-# React + Vite
+# MVP-DBA - *Book Review*
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+#### 1. Descrição
 
-Currently, two official plugins are available:
+Uma plataforma que permite o usuário pesquisar e avaliar uma vasta seleção de livros, fornecidas pela [API pública da OpenLibrary](https://openlibrary.org/dev/docs/api/search). 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+(inserir o diagrama aqui)
+(INCLUIR INFORMAÇÕES PARA EXECUÇÃO DO DOCKER NO "INSTALAÇÃO E EXECUÇÃO")
 
-## React Compiler
+#### 2. Pré-Requisitos
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Uma IDE de sua escolha (exemplo: Visual Studio Code)
+2. Git
+3. Node.js
+4. Docker
 
-## Expanding the Oxlint configuration
+#### 3. Instalação e execução 
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+**ATENÇÃO**: Para que o projeto funcione corretamente, também será preciso executar o back-end. Clique [aqui](https://github.com/thelunacodes/MVP-DBA-Back-End) para mais informações.s
+
+**Passo 1 - Clone o repositório para sua máquina**
+
+Em um terminal, execute os comandos:
+ 
+    git clone https://github.com/thelunacodes/MVP-DBA-Front-End.git
+
+**Passo 2 - Navegue para a pasta do projeto**
+
+    cd MVP-DFA
+
+**Passo 3 - Instale as dependências do projeto**
+
+    npm install
+
+**Passo 4 - Inicie o servidor**
+
+    npm run dev
+
+Após a inicialização, acesse a URL exibida no terminal:
+
+    http://localhost:<número de porta>
+
+**Como o projeto é executado em um servidor de desenvolvimento local, ele só pode ser acessado pela sua máquina.**
+
