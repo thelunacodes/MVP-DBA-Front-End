@@ -146,15 +146,17 @@ export default function PageSearchResults() {
                         <div>
                             <p className="semibold centeredText resultsForMsg">Results for "{currSearchQuery}" ({numFound})</p>
                             <BookCardList bookList={bookRecords} />
-                            <div className="flex row vCenter hCenter paginationContainer"> 
-                                <div className="wrapper" title="Go to previous page">
-                                    <FontAwesomeIcon icon={faChevronLeft} onClick={() => pageBack()} className={`chevIcon ${pageNum == 1 && 'chevDisabled'}`}/>
+                            { bookRecords?.length > 0 &&
+                                <div className="flex row vCenter hCenter paginationContainer"> 
+                                    <div className="wrapper" title="Go to previous page">
+                                        <FontAwesomeIcon icon={faChevronLeft} onClick={() => pageBack()} className={`chevIcon ${pageNum == 1 && 'chevDisabled'}`}/>
+                                    </div>
+                                    <p>{pageNum}</p>
+                                    <div className="wrapper" title="Go to next page">
+                                        <FontAwesomeIcon icon={faChevronRight} onClick={() => nextPage()} className={`chevIcon ${pageNum == maxPageNum && 'chevDisabled'}`}/>
+                                    </div>
                                 </div>
-                                <p>{pageNum}</p>
-                                <div className="wrapper" title="Go to next page">
-                                    <FontAwesomeIcon icon={faChevronRight} onClick={() => nextPage()} className={`chevIcon ${pageNum == maxPageNum && 'chevDisabled'}`}/>
-                                </div>
-                            </div>
+                            }
                         </div>
                     }
                 </div>
