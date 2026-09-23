@@ -26,7 +26,7 @@ Em um terminal, execute os comandos:
 
 **Passo 2 - Navegue para a pasta do projeto**
 
-    cd MVP-DFA
+    cd MVP-DBA-Front-End
 
 **Passo 3 - Instale as dependências do projeto**
 
