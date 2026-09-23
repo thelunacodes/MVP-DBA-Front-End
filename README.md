@@ -16,7 +16,7 @@ Uma plataforma que permite o usuário pesquisar e avaliar uma vasta seleção de
 
 #### 3. Instalação e execução 
 
-**ATENÇÃO**: Para que o projeto funcione corretamente, também será preciso executar o back-end. Clique [aqui](https://github.com/thelunacodes/MVP-DBA-Back-End) para mais informações.s
+**ATENÇÃO**: Para que o projeto funcione corretamente, também será preciso executar o back-end. Clique [aqui](https://github.com/thelunacodes/MVP-DBA-Back-End) para mais informações.
 
 **Passo 1 - Clone o repositório para sua máquina**
 
