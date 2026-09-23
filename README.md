@@ -10,9 +10,9 @@ Uma plataforma que permite o usuário pesquisar e avaliar uma vasta seleção de
 #### 2. Pré-Requisitos
 
 1. Uma IDE de sua escolha (exemplo: Visual Studio Code)
-2. Git
-3. Node.js
-4. Docker
+2. [Git](https://git-scm.com/)
+3. [Node.js](https://nodejs.org/pt-br)
+4. [Docker](https://www.docker.com/)
 
 #### 3. Instalação e execução 
 
