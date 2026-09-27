@@ -25,7 +25,7 @@ export default function ReviewCard({review, reviewIdx, reviewList, reviewListSet
 
         let url = `${API_URL}/userbyid?id=${review.user_id}`;
 
-            fetch(url)
+            fetch(url, {method: "get"})
                 .then(res => {
                     if (!res.ok) throw new Error(`Unable to fetch user (${res.status} - ${res.statusText})`)
                     return res.json()
@@ -79,7 +79,7 @@ export default function ReviewCard({review, reviewIdx, reviewList, reviewListSet
 
     function likeReview() {
         let url = `${API_URL}/like`
-        fetch(url, {method: 'put',
+        fetch(url, {method:"post",
             headers: {
                 "content-type": "application/json"
             }, 
